@@ -12,6 +12,14 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
 });
+
+server.applyMiddleware({ app });
+
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
+
+app.use('/', routes); // + this is the RESTful path for the routes file
+
 const PORT = process.env.PORT || 3001;
 
 app.use(express.urlencoded({ extended: true }));
