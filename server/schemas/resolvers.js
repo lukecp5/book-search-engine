@@ -18,7 +18,10 @@ const resolvers = {
       Mutation: {
             // > Mutation that will create a new user in the database.
             createUser: async (parent, args, context) => {
-
+                  const user = await User.create(args);
+                  const token = signToken(user);
+                  return { token, user };
+                }
             },
 
             // > Mutation that will update a user in the database by adding a book to their list of books.
