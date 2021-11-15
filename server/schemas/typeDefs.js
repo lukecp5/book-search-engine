@@ -22,7 +22,7 @@ const typeDefs = gql`
 		image: String!
 	}
 
-  # GraphQL input type for saving a book that is received from Google Books API search 
+  # GraphQL input type for saving a book that is received from Google Books API search to a user's saved books
       input BookInput {
             bookId
             title: String!
