@@ -28,7 +28,16 @@ const resolvers = {
             },
             login: async (parent, { email, password }, context) => {
 
-      Mutation: {
+                  // > Find the user by their email address
+                  const user = await User.findOne({ email });
+
+                  // > If the user is not found, throw an authentication error
+                  if (!user) {
+                    throw new AuthenticationError(
+                      'Invalid email or password'
+                    );
+                  }
+
 
             }
       },
