@@ -20,12 +20,18 @@ const resolvers = {
 			return { token, user };
 		},
 
-            // > Mutation that will update a user in the database by adding a book to their list of books.
-            saveBook: async (parent, args, context) => {
-                        
-                  },
-            
-            // > This is the mutation that will be used to delete a book from the user's saved books.
+		// > Mutation that will update a user in the database by adding a book to their list of books.
+		saveBook: async (parent, { bookData }, context) => {
+			if (context.user) {
+				const user = await User.findOneAndUpdate(
+					{ _id: context.user._id },
+					{ $push: { savedBooks: { bookData } } },
+					{ new: true }
+				);
+				return user;
+			}
+		},
+
 		// > This is the mutation that will be used to verify the user's credentials and log them in.
 		login: async (parent, { email, password }, context) => {
 			// > Find the user by their email address
