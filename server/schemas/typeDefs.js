@@ -6,7 +6,7 @@ const { gql } = require('apollo-server-express');
       email
       password
       savedBooks: [bookSchema],
-  },
+
 */
 
 const typeDefs = gql`
