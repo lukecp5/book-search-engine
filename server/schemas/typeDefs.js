@@ -22,6 +22,12 @@ const typeDefs = gql`
 		image: String!
 	}
 
+
+      type Auth {
+            token: ID!
+            user: User
+      }
+
 `;
 
 module.exports = typeDefs;
