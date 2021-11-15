@@ -16,16 +16,20 @@ const resolvers = {
 
 // NOTE: Mutations ported from user-controller.js
       Mutation: {
-            getSingleUser: async (parent, args, context) => {
-            },
+            // > Mutation that will create a new user in the database.
             createUser: async (parent, args, context) => {
 
             },
+
+            // > Mutation that will update a user in the database by adding a book to their list of books.
             saveBook: async (parent, args, context) => {
                         
                   },
+            
+            // > This is the mutation that will be used to delete a book from the user's saved books.
             deleteBook: async (parent, args, context) => {
             },
+            // > This is the mutation that will be used to verify the user's credentials and log them in.
             login: async (parent, { email, password }, context) => {
 
                   // > Find the user by their email address
