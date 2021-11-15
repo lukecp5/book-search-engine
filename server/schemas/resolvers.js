@@ -32,6 +32,18 @@ const resolvers = {
 			}
 		},
 
+		// > This is the mutation that will be used to delete a book from the user's saved books.
+		deleteBook: async (parent, { bookId }, context) => {
+			if (context.user) {
+				const user = await User.findOneAndUpdate(
+					{ _id: context.user._id },
+					{ $pull: { savedBooks: { bookId } } },
+					{ new: true }
+				);
+				return user;
+			}
+		},
+            
 		// > This is the mutation that will be used to verify the user's credentials and log them in.
 		login: async (parent, { email, password }, context) => {
 			// > Find the user by their email address
@@ -53,5 +65,5 @@ const resolvers = {
 			const token = signToken(user);
 			return { token, user };
 		},
-
+	},
 };
