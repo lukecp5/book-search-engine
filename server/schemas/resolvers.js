@@ -3,8 +3,8 @@ const { signToken } = require("../utils/auth");
 const { AuthenticationError } = require("apollo-server-express");
 
 const resolvers = {
-	// > Query that will find a user(if one is present) in the context provided by the authMiddleware, and return the user.
-	Query: {
+      Query: {
+            // > Query that will find a user(if one is present) in the context provided by the authMiddleware, and return the user.
 		me: async (parent, args, context) => {
 			if (context.user) {
 				return User.findOne({ _id: context.user._id });
@@ -12,6 +12,7 @@ const resolvers = {
 			throw new AuthenticationError("You need to be logged in!");
 		},
 	},
+
 	Mutation: {
 		// > Mutation that will create a new user in the database.
 		createUser: async (parent, args) => {
@@ -43,7 +44,7 @@ const resolvers = {
 				return user;
 			}
 		},
-            
+
 		// > This is the mutation that will be used to verify the user's credentials and log them in.
 		login: async (parent, { email, password }, context) => {
 			// > Find the user by their email address
