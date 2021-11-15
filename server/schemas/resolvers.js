@@ -14,11 +14,23 @@ const resolvers = {
                 },
       },
 
+// NOTE: Mutations ported from user-controller.js
+      Mutation: {
+            getSingleUser: async (parent, args, context) => {
+            },
+            createUser: async (parent, args, context) => {
 
-      },
+            },
+            saveBook: async (parent, args, context) => {
+                        
+                  },
+            deleteBook: async (parent, args, context) => {
+            },
+            login: async (parent, { email, password }, context) => {
 
       Mutation: {
 
+            }
       },
 
 };
