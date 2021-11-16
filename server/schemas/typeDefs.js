@@ -1,11 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const typeDefs = gql`
-	type Query {
-		me: User
-	}
-
-	type User {
+  type User {
 		_id: ID!
 		username: String!
 		email: String!
@@ -13,31 +9,34 @@ const typeDefs = gql`
 		savedBooks: [Book]
 	}
 
-	type Book {
+  type Book {
 		bookId: ID!
+		authors: [String]
+		description: String
+		image: String
+		link: String
 		title: String!
-		authors: String!
-		description: String!
-		link: String!
-		image: String!
 	}
 
-  # GraphQL input type for saving a book that is received from Google Books API search to a user's saved books
-      input BookInput {
-            bookId
-            title: String!
+  input BookInput {
             authors: [ String ]
             description: String!
-            link: String
+            bookId: String!
             image: String
+            link: String
+            title: String!
       }
 
-      type Auth {
+  type Auth {
             token: ID!
             user: User
       }
 
-      type Mutation {
+  type Query {
+		me: User
+	}
+
+  type Mutation {
             createUser(username: String!, email: String!, password: String!): Auth
             login(email: String!, password: String!): Auth
             saveBook(bookData: BookInput!): User
