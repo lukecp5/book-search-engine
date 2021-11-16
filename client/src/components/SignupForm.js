@@ -7,17 +7,19 @@ import { ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 
 const SignupForm = () => {
-  // set initial form state
-  const [userFormData, setUserFormData] = useState({ username: '', email: '', password: '' });
-  // set state for form validation
-  const [validated] = useState(false);
-  // set state for alert
-  const [showAlert, setShowAlert] = useState(false);
+	// > Set initial form state
+	const [userFormData, setUserFormData] = useState({ username: "", email: "", password: "" });
+	// > Set state for form validation
+	const [validated] = useState(false);
+	// > Set state for alert (success/failure)
+	const [showAlert, setShowAlert] = useState(false);
+	// > Create mutation function for the ADD_USER mutation
+	const [addUser, { error }] = useMutation(ADD_USER);
 
-  const handleInputChange = (event) => {
-    const { name, value } = event.target;
-    setUserFormData({ ...userFormData, [name]: value });
-  };
+	const handleInputChange = (event) => {
+		const { name, value } = event.target;
+		setUserFormData({ ...userFormData, [name]: value });
+	};
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
