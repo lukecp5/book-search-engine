@@ -10,7 +10,7 @@ import { gql } from "@apollo/client";
                         }
                   }
             }
-      `,
+      `
       export const SAVE_BOOK = gql`
             mutation saveBook($bookData: BookInput!) {
                   saveBook(bookData: $bookData) {
@@ -27,7 +27,7 @@ import { gql } from "@apollo/client";
                         }
                   }
             }
-      `,
+      `
 
 	export const LOGIN_USER = gql`
 		mutation loginUser($email: String!, $password: String!) {
@@ -39,7 +39,7 @@ import { gql } from "@apollo/client";
 				}
 			}
 		}
-	`,
+	`
 
       export const REMOVE_BOOK = gql`
             mutation removeBook($bookId: ID!) {
@@ -57,7 +57,7 @@ import { gql } from "@apollo/client";
                         }
                   }
             }
-      `,
+      `
 
 
 
