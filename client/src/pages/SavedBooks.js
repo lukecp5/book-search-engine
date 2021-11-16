@@ -8,57 +8,49 @@ import { removeBookId } from "../utils/localStorage";
 const { useQuery, useMutation } = require("@apollo/client");
 const { QUERY_ME, REMOVE_BOOK } = require("../utils/queries");
 
-  // use this to determine if `useEffect()` hook needs to run again
-  const userDataLength = Object.keys(userData).length;
+/*
 
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const token = Auth.loggedIn() ? Auth.getToken() : null;
+DONE: Remove the useEffect() Hook that sets the state for UserData.
 
-        if (!token) {
-          return false;
-        }
+DONE: Instead, use the useQuery() Hook to execute the GET_ME query on load and save it to a variable named userData.
 
-        const response = await getMe(token);
+DONE: Use the useMutation() Hook to execute the REMOVE_BOOK mutation in the handleDeleteBook() function instead of the deleteBook() function that's imported from API file. (Make sure you keep the removeBookId() function in place!)
+import { QUERY_ME } from './../../../../finished-hw/client/src/utils/queries';
 
-        if (!response.ok) {
-          throw new Error('something went wrong!');
-        }
+*/
 
-        const user = await response.json();
-        setUserData(user);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+const SavedBooks = () => {
+	const [userData, setUserData] = useState({});
+	const { loading, error, data } = useQuery(QUERY_ME);
+	const [removeBook, { loading, data, error }] = useMutation(REMOVE_BOOK);
 
-    getUserData();
-  }, [userDataLength]);
+	// use this to determine if `useEffect()` hook needs to run again
+	const userDataLength = Object.keys(userData).length;
 
-  // create function that accepts the book's mongo _id value as param and deletes the book from the database
-  const handleDeleteBook = async (bookId) => {
-    const token = Auth.loggedIn() ? Auth.getToken() : null;
+	const userData = data?.me || {};
 
-    if (!token) {
-      return false;
-    }
+	// create function that accepts the book's mongo _id value as param and deletes the book from the database
+	const handleDeleteBook = async (bookId) => {
+		const token = Auth.loggedIn() ? Auth.getToken() : null;
 
-    try {
-      const response = await deleteBook(bookId, token);
+		if (!token) {
+			return false;
+		}
 
-      if (!response.ok) {
-        throw new Error('something went wrong!');
-      }
+		try {
+			const { data, error } = await removeBook({
+				variables: { bookId },
+			});
+			if (error) {
+				throw new Error("something went wrong!");
+			}
 
-      const updatedUser = await response.json();
-      setUserData(updatedUser);
-      // upon success, remove book's id from localStorage
-      removeBookId(bookId);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+			// upon success, remove book's id from localStorage
+			removeBookId(bookId);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
   // if data isn't here yet, say so
   if (!userDataLength) {
