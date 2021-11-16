@@ -23,9 +23,9 @@ const SearchBooks = () => {
 
 	// > set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
 	// > learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
-	useEffect(() => {
-		return () => saveBookIds(savedBookIds);
-	});
+	// useEffect(() => {
+	// 	return () => saveBookIds(savedBookIds);
+	// });
 
 	// > create method to search for books and set state on form submit
 	const handleFormSubmit = async (event) => {
@@ -36,6 +36,7 @@ const SearchBooks = () => {
 		}
 
 		try {
+			// > call searchGoogleBooks method from utils/API.js and pass in the input value from the searchInput state variable
 			const response = await searchGoogleBooks(searchInput);
 
 			if (!response.ok) {
@@ -52,6 +53,7 @@ const SearchBooks = () => {
 				image: book.volumeInfo.imageLinks?.thumbnail || "",
 			}));
 
+			// > set the state of searchedBooks to the returned data from the API after mapping over the array of results
 			setSearchedBooks(bookData);
 			setSearchInput("");
 		} catch (err) {
