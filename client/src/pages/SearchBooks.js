@@ -9,20 +9,23 @@ import Auth from "../utils/auth";
 import { saveBookIds, getSavedBookIds } from "../utils/localStorage";
 
 const SearchBooks = () => {
-  // > create state for holding returned data from Google Books API
-  const [searchedBooks, setSearchedBooks] = useState([]);
+	// > create state for holding returned data from Google Books API
+	const [searchedBooks, setSearchedBooks] = useState([]);
 
-  // > create state for holding our search field data
-  const [searchInput, setSearchInput] = useState('');
+	// > create state for holding our search field data
+	const [searchInput, setSearchInput] = useState("");
 
-  // > create state to hold saved bookId values
-  const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
+	// > create state to hold saved bookId values
+	const [savedBookIds, setSavedBookIds] = useState(getSavedBookIds());
 
-  // > set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
-  // > learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
-  useEffect(() => {
-    return () => saveBookIds(savedBookIds);
-  });
+	// > create state to hold the status of our saveBook mutation
+	const [saveBook, { error }] = useMutation(SAVE_BOOK);
+
+	// > set up useEffect hook to save `savedBookIds` list to localStorage on component unmount
+	// > learn more here: https://reactjs.org/docs/hooks-effect.html#effects-with-cleanup
+	useEffect(() => {
+		return () => saveBookIds(savedBookIds);
+	});
 
   // > create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
