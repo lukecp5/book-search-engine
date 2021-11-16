@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 
 import { ADD_USER } from "../utils/mutations";
+import { useMutation } from "@apollo/client";
 // OLD REST API USER CREATION FUNCTION --- import { createUser } from '../utils/API';
 
 import Auth from "../utils/auth";
@@ -14,7 +15,7 @@ const SignupForm = () => {
 	// > Set state for alert (success/failure)
 	const [showAlert, setShowAlert] = useState(false);
 	// > Create mutation function for the ADD_USER mutation
-	const [addUser, { error }] = useMutation(ADD_USER);
+	const [addUser] = useMutation(ADD_USER);
 
 	const handleInputChange = (event) => {
 		const { name, value } = event.target;
@@ -33,18 +34,14 @@ const SignupForm = () => {
 
 		try {
 			// > Create new user in the database using the ADD_USER mutation
-			const { data, error } = await addUser({
+			const { data } = await addUser({
 				variables: { ...userFormData },
 			});
 
-			error ? console.log(error) : console.log(data);
-
 			// > Extract token from newly created user returned by addUser mutation and log user in
-			const { authToken } = data.addUser.token;
-			Auth.login(authToken);
+			Auth.login(data.addUser.token);
 		} catch (err) {
 			console.error(err);
-			setShowAlert(true);
 		}
 
 		setUserFormData({
