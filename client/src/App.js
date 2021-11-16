@@ -7,6 +7,23 @@ import Navbar from "./components/Navbar";
 import { ApolloProvider, ApolloClient, createHttpLink, InMemoryCache } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 
+// > Create the GraphQL API endpoint so that we can use it in our components
+const httpLink = createHttpLink({
+	uri: "/graphql",
+});
+
+// > Request middleware that passes a JWT token with every request as an `authorization` header
+const authLink = setContext((_, { headers }) => {
+	// > If we have a token, store it to 'token' so we can add it to our headers
+	const token = localStorage.getItem("id_token");
+	// > Return the headers to the context so httpLink can read them
+	return {
+		headers: {
+			...headers,
+			authorization: token ? `Bearer ${token}` : "",
+		},
+	};
+});
 
 function App() {
   return (
