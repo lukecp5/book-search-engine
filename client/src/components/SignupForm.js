@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import React, { useState } from "react";
+import { Form, Button, Alert } from "react-bootstrap";
 
-import { createUser } from '../utils/API';
-import Auth from '../utils/auth';
+import { ADD_USER } from "../utils/mutations";
+// OLD REST API USER CREATION FUNCTION --- import { createUser } from '../utils/API';
+
+import Auth from "../utils/auth";
 
 const SignupForm = () => {
   // set initial form state
