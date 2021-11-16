@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { Jumbotron, Container, CardColumns, Card, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Jumbotron, Container, CardColumns, Card, Button } from "react-bootstrap";
 
-import { getMe, deleteBook } from '../utils/API';
-import Auth from '../utils/auth';
-import { removeBookId } from '../utils/localStorage';
+// import { getMe, deleteBook } from "../utils/API";
+import Auth from "../utils/auth";
+import { removeBookId } from "../utils/localStorage";
 
-const SavedBooks = () => {
-  const [userData, setUserData] = useState({});
+const { useQuery, useMutation } = require("@apollo/client");
+const { QUERY_ME, REMOVE_BOOK } = require("../utils/queries");
 
   // use this to determine if `useEffect()` hook needs to run again
   const userDataLength = Object.keys(userData).length;
