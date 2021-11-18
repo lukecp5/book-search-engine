@@ -7,7 +7,8 @@ const resolvers = {
 		// > Query that will find a user(if one is present) in the context provided by the authMiddleware, and return the user.
 		me: async (parent, args, context) => {
 			if (context.user) {
-				return User.findOne({ _id: context.user._id });
+				const userData = User.findOne({ _id: context.user._id }).select("-__v -password");
+				return userData;
 			}
 			throw new AuthenticationError("You need to be logged in!");
 		},
@@ -24,24 +25,24 @@ const resolvers = {
 		// > Mutation that will update a user in the database by adding a book to their list of books.
 		saveBook: async (parent, { bookData }, context) => {
 			if (context.user) {
-				const user = await User.findOneAndUpdate(
+				const updatedUser = await User.findByIdAndUpdate(
 					{ _id: context.user._id },
-					{ $push: { savedBooks: { bookData } } },
+					{ $push: { savedBooks: bookData } },
 					{ new: true }
 				);
-				return user;
+				return updatedUser;
 			}
 		},
 
 		// > This is the mutation that will be used to delete a book from the user's saved books.
 		removeBook: async (parent, { bookId }, context) => {
 			if (context.user) {
-				const user = await User.findOneAndUpdate(
+				const currentUser = await User.findOneAndUpdate(
 					{ _id: context.user._id },
 					{ $pull: { savedBooks: { bookId } } },
 					{ new: true }
 				);
-				return user;
+				return currentUser;
 			}
 		},
 
@@ -57,7 +58,7 @@ const resolvers = {
 
 			// > Evaluate the submitted password using the isValidPassword method that is provided by the userSchema
 			// > If the password is incorrect, throw a non-descript authentication error
-			const isValid = await user.isValidPassword(password);
+			const isValid = await user.isCorrectPassword(password);
 			if (!isValid) {
 				throw new AuthenticationError("Invalid username or password");
 			}
