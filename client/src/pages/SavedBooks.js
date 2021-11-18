@@ -20,15 +20,13 @@ import { QUERY_ME } from './../../../../finished-hw/client/src/utils/queries';
 */
 
 const SavedBooks = () => {
-	const [userData, setUserData] = useState({});
-	const { loading, error, data } = useQuery(QUERY_ME);
-	const [removeBook, { loading, data, error }] = useMutation(REMOVE_BOOK);
+	// const [userData, setUserData] = useState({});
+	const { loading, data } = useQuery(QUERY_ME);
+	const [removeBook] = useMutation(REMOVE_BOOK);
 
-	// use this to determine if `useEffect()` hook needs to run again
-	const userDataLength = Object.keys(userData).length;
+	const userData = data ? data.me : {};
 
-	const userData = data?.me || {};
-
+	console.log(userData);
 	// create function that accepts the book's mongo _id value as param and deletes the book from the database
 	const handleDeleteBook = async (bookId) => {
 		const token = Auth.loggedIn() ? Auth.getToken() : null;
