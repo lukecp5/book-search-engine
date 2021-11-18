@@ -13,7 +13,7 @@ const app = express();
 async function startApolloServer(typeDefs, resolvers) {
 	const server = new ApolloServer({ typeDefs, resolvers, context: authMiddleware });
 	await server.start();
-	server.applyMiddleware({ app, path: "/graphql" });
+	server.applyMiddleware({ app });
 
 	db.once("open", () => {
 		app.listen(PORT, () => {
@@ -24,7 +24,7 @@ async function startApolloServer(typeDefs, resolvers) {
 
 startApolloServer(typeDefs, resolvers);
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 app.use(express.static(path.resolve(__dirname, "../client/build")));
