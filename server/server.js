@@ -17,7 +17,7 @@ async function startApolloServer(typeDefs, resolvers) {
 
 	db.once("open", () => {
 		app.listen(PORT, () => {
-			console.log(`Server is listening on port ${PORT}${server.graphqlPath}`);
+			console.log(`Server is listening on port ${PORT}`);
 		});
 	});
 }
