@@ -9,9 +9,18 @@ import { useMutation } from "@apollo/client";
 import Auth from "../utils/auth";
 
 const LoginForm = () => {
-  const [userFormData, setUserFormData] = useState({ email: '', password: '' });
-  const [validated] = useState(false);
-  const [showAlert, setShowAlert] = useState(false);
+	const [userFormData, setUserFormData] = useState({ email: "", password: "" });
+	const [validated] = useState(false);
+	const [showAlert, setShowAlert] = useState(false);
+	const [login, { error }] = useMutation(LOGIN_USER);
+
+	useEffect(() => {
+		if (error) {
+			setShowAlert(true);
+		} else {
+			setShowAlert(false);
+		}
+	}, [error]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
